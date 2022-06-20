@@ -19,9 +19,18 @@ function ErrorOccurComponent(){
 
   async function event1(){
     console.log('event1')
+    
     let ret = 0;
     for(let i = 0; i < 10; i ++)
       ret += i
+
+    function tmpWait(delay : number) : Promise<number>{
+      return new Promise( (resolve)=>{
+        setTimeout( ()=>{resolve(1) }, delay);
+        
+      } )
+    }
+    ret += await tmpWait(1000)
     return ret
   }
   async function event2(str : number){
@@ -29,13 +38,13 @@ function ErrorOccurComponent(){
     console.log(str)
   }
   async function onClickErrorOccurHandle(){
-    let data = await event1()
-    event2(data)
+    console.log(await event1())
+    event2(1)
   }
   
   return (
     <>
-      <button onClick={()=>onClickErrorOccurHandle()}> OCCUR ERROR </button>
+      <button onClick={onClickErrorOccurHandle}> OCCUR ERROR </button>
     </>
   )
 }
